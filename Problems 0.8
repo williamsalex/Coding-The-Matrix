@@ -1,0 +1,16 @@
+# Problem 0.8.1
+def increments(L):
+    return([x+1 for x in L])
+
+# Problem 0.8.2
+def cubes(L):
+    return([x**3 for x in L])
+
+# Problem 0.8.3
+def tuple_sum(A, B):
+    return([(A[0][0]+A[1][0],A[0][1]+A[1][1]) for X in zip(A, B)])
+
+# Problem 0.8.4
+def inv_dict(mydict):
+    y = [(A[1],A[0]) for A in mydict.items()]
+    return(y)

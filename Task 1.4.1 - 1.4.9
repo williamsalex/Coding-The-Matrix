@@ -1,0 +1,21 @@
+from plotting import plot
+S = {2+2j, 3+2j, 1.75+1j, 2+1j, 2.25+1j, 2.5+1j, 2.75+1j, 3+1j, 3.25+1j}
+
+# Task 1.4.1
+plot(S, 4)
+
+# Task 1.4.3
+plot({1+2j+z for z in S}, 4)
+
+# Bonus
+plot({z.conjugate() for z in S})
+
+# Task 1.4.7
+plot({.5*z for z in S}, 4)
+
+
+# Task 1.4.8
+plot({.5*z*1j for z in S})
+
+# Task 1.4.9
+plot({.5*z*1j-1j+2 for z in S})
