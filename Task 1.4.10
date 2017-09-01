@@ -3,7 +3,7 @@ from image import file2image
 data=file2image("img01.png")
 Y=list(range(0,189,1))
 X=list(range(0,166,1))
-pts=[x+(189j+y*-1j) for x in X for y in Y if data[y][x][0]>120]
+pts=[x+(189j+y*-1j) for x in X for y in Y if data[y][x][0]<120]
 plot(pts, 300)
 # directory must be same as img01.png
 # translation by 189j and multiplication by -1 was used to make the image reflect the example's position

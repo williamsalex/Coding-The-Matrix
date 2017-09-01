@@ -1,0 +1,10 @@
+from math import e,pi
+from plotting import plot
+
+w=e**((2*pi*1j)/20)
+points=list(range(0,20,1))
+coordinates=[w**x for x in points]
+plot(coordinates, 4)
+
+# Originally used range as variable, due to its use as a python function it caused a not callable error
+# Fixed by using del range and a different variable
