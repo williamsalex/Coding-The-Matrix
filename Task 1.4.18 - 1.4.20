@@ -1,0 +1,20 @@
+from plotting import plot
+from math import pi,e
+from image import file2image
+
+# Task 1.4.18
+S = {2+2j, 3+2j, 1.75+1j, 2+1j, 2.25+1j, 2.5+1j, 2.75+1j, 3+1j, 3.25+1j}
+rotated={x*(e**(1j*pi/4)) for x in S}
+plot(rotated, 4)
+
+# Task 1.4.19
+data=file2image("img01.png")
+Y=list(range(0,189,1))
+X=list(range(0,166,1))
+pts=[x+(189j+y*-1j) for x in X for y in Y if data[y][x][0]<120]
+pts2=[x*(e**(1j*pi/4)) for x in pts]
+plot(pts2, 300)
+
+# Task 1.4.20
+pts3=[x*.5*(e**(1j*pi/4))-55j for x in pts]
+plot(pts3, 300)
