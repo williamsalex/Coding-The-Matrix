@@ -43,3 +43,11 @@ outputGF2=[0*X for X in output if X>1]
 
 def Decrypter(cypher,key):
     GF2addition=[1,0,1,0,1],[1,1,1,0,0]
+
+
+
+def binary(L):
+	integer=(L[0]*16+L[1]*8+L[2]*4+L[3]*2+L[4])
+	print(integer)
+	alphNum={'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7,'I':8,'J':9,'K':10,'L':11,'M':12,'N':13,'O':14,'P':15,'Q':16,'R':17,'S':18,'T':19,'U':20,'V':21,'W':22,'X':23,'Y':24,'Z':25,' ':26}
+	print(alphNum.items)
