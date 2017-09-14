@@ -12,8 +12,9 @@ alphNum={'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7,'I':8,'J':9,'K':10,'L':
 [ for k in alphNum for v in phrase in alphNum.items()]
 digits=set(range(2))
 
+<<<<<<< HEAD
 phrase=input("Input a phrase!")
-
+=======
 13
 +((X-X%2)/2)+X%2
 integer=(16*binary[0]+8*binary[1]+4*binary[2]+2*binary[3]+1*binary[4])
@@ -46,7 +47,11 @@ outputGF2=[0*X for X in output if X>1]
 
 def Decrypter(cypher,key):
     GF2addition=[1,0,1,0,1],[1,1,1,0,0]
-
+def GF2addition(A,B):
+    C=[A[0]+B[0],A[1]+B[1],A[2]+B[2],A[3]+B[3],A[4]+B[4]]
+    GF2dict={2:0,1:one,0:0}
+    D=[GF2dict[C[0]],GF2dict[C[1]],GF2dict[C[2]],GF2dict[C[3]],GF2dict[C[4]]]
+    return(D)
 
 
 def binary(L):
@@ -55,20 +60,40 @@ def binary(L):
 	alphNum={'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7,'I':8,'J':9,'K':10,'L':11,'M':12,'N':13,'O':14,'P':15,'Q':16,'R':17,'S':18,'T':19,'U':20,'V':21,'W':22,'X':23,'Y':24,'Z':25,' ':26}
 	print(alphNum.items)
 
-<<<<<<< Updated upstream
 #cyphertext=[0,0,1,1,0]
 #key       =[0,1,0,1,0]
-def decrypter(X):
-    from GF2 import one
+# A=cyphertext B=key
+def decrypter(A,B):
     numAlph={0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H',8:'I',9:'J',10:'K',11:'L',12:'M',13:'N',14:'O',15:'P',16:'Q',17:'R',18:'S',19:'T',20:'U',21:'V',22:'W',23:'X',24:'Y',25:'Z',26:' '}
-    cyphertext2=[one for x in cyphertext]
-    cypher2=[one for x in key]
-    L=[(cyphertext2[0]+cypher2[0]),(cyphertext2[1]+cypher2[1]),(cyphertext2[2]+cypher2[2]),(cyphertext2[3]+cypher2[3]),(cyphertext2[4]+cypher2[4])]
-    #final binary is [0,1,1,0,0]
-    integer=(L[0]*16+L[1]*8+L[2]*4+L[3]*2+L[4])
-    print(numAlph[integer])
-    #M
+    C=[A[0]+B[0],A[1]+B[1],A[2]+B[2],A[3]+B[3],A[4]+B[4]]
+    GF2dict={2:0,1:1,0:0}
+    #D=[GF2dict[C[0]],GF2dict[C[1]],GF2dict[C[2]],GF2dict[C[3]],GF2dict[C[4]]]
+    D=[GF2dict[X] for X in C]
+    integer=(D[0]*16+D[1]*8+D[2]*4+D[3]*2+D[4])
+    if integer>26:
+        return("Error!")
+    else:
+        return(numAlph[integer])
 
+
+D=[GF2dict[C[0],C[1],C[2],C[3],C[4]]]
+U=len(C)
+D=[GF2dict[C[X]] for X in U]
+
+D=[GF2dict[X] for X in C]
+
+#modified decrypter
+def bruteForce(A):
+    B=[]
+    numAlph={0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H',8:'I',9:'J',10:'K',11:'L',12:'M',13:'N',14:'O',15:'P',16:'Q',17:'R',18:'S',19:'T',20:'U',21:'V',22:'W',23:'X',24:'Y',25:'Z',26:' '}
+    C=[A[0]+B[0],A[1]+B[1],A[2]+B[2],A[3]+B[3],A[4]+B[4]]
+    GF2dict={2:0,1:1,0:0}
+    D=[GF2dict[C[0]],GF2dict[C[1]],GF2dict[C[2]],GF2dict[C[3]],GF2dict[C[4]]]
+    integer=(D[0]*16+D[1]*8+D[2]*4+D[3]*2+D[4])
+    if integer>26:
+        return("Error!")
+    else:
+        return(numAlph[integer])
 
 def binaryToGF2(X):
     if X==1:
@@ -79,18 +104,20 @@ def binaryToGF2(X):
     else:
         return(X)
 
-L=[binaryToGF2(X) for X ]
-=======
+A=[binaryToGF2(X) for X in cyphertext]
+B=[binaryToGF2(X) for X in key]
 
 
-from GF2 import one
-key=input("Input key as a list of binary numbers!")
-text=input("Input text as a list of binary numbers!")
-def GF2addition([B]):
-    
-def binary(L):
-	f=(L[0]*16+L[1]*8+L[2]*4+L[3]*2+L[4])
-	print(f)
-	alphNum={0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H',8:'I',9:'J',10:'K',11:'L',12:'M',13:'N',14:'O',15:'P',16:'Q',17:'R',18:'S',19:'T',20:'U',21:'V',22:'W',23:'X',24:'Y',25:'Z',26:' '}
-	return(alphNum[f])
->>>>>>> Stashed changes
+
+def phraseDecrypter(B):
+    A=[[1,0,1,0,1], [0,0,1,0,0], [1,0,1,0,1], [0,1,0,1,1], [1,1,0,0,1], [0,0,0,1,1], [0,1,0,1,1], [1,0,1,0,1], [0,0,1,0,0], [1,1,0,0,1], [1,1,0,1,0]]
+    return([decrypter(X,B) for X in A])
+
+
+bins=[0,1]
+keys=[[X,Y,Z,U,E] for X in bins for Y in bins for Z in bins for U in bins for E in bins]
+
+def autoDecrypter(keys):
+    return([phraseDecrypter(Z) for Z in keys])
+
+['','','','','','']
