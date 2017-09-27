@@ -1,9 +1,10 @@
 # Problem 1.7.1
 def my_filter(A, B):
+    Z = list(range(0, len(A), 1))
     multiples=[int(x/B) for x in A]
     filtered=[X*B for X in multiples]
-    filtered2=[X for X in filtered if X==A]
-    return(filtered)
+    filtered2=[X for X in filtered if filtered[Z]==A[Z]]
+    return(filtered2)
 
 # Problem 1.7.2
 def my_lists(L):
