@@ -5,7 +5,7 @@ plot(L, 4)
 def northEast(v,w):
     return [v[0]+w[0], v[1]+w[1]]
 
-use [4,4] and [-4,-4] for v and [1,2] for w
+#use [4,4] and [-4,-4] for v and [1,2] for w
 
 plot([add2(v, [1,2]) for v in L], 4)
 
@@ -22,15 +22,32 @@ plot(vectorScalar(0.5,L), 4)
 
 # Contract lineSegment : two vec and one int -> a list of vec
 # Purpose to create points between the two input vectors, the number of which is determined by the input int
-# Example lineSegment([2,4], [4,5], 3) : [[2,4], [2,4.25], [3, 4.5], [3.5, 4.75], [4,5]]
+# Example lineSegment([2,4], [4,5], 3) : [[2,4], [2.5,4.25], [3, 4.5], [3.5, 4.75], [4,5]]
 def lineSegment(A, B, C):
     E=subVector(A, B)
-    F=vectorScalar(C, E)
-    return(F)
-    plot(points, 20)
+    F=vectorScalar(1/(1+C), (E))
+    coords=[addVector(A,vectorScalar(X,F)) for X in list(range(0,C+2,1))]
+    return(coords)
+
+# Contract fittedWindowSize : one list of vec -> int
+# Purpose to determine the optimal viewing window size using the list given
+# Example fittedWindowSize([100,0],[0,110],[50,50],[-120,75]) : 120
+
+def fittedWindowSize(A):
+    B=[x for x in A]
+    C=[abs(x) for x in B]
+    C[0]=z
+    D=[x for x in C if x>=z]
+    return(D)
+
 
 def subVector(v, w):
-    return([x+y for (x,y) in zip(v,w)])
+    return([x-y for (x,y) in zip(w,v)])
 
 def vectorScalar(alpha, v):
     return [alpha*v[i] for i in list(range(len(v)))]
+
+def addVector(v, w):
+    return([x+y for (x,y) in zip(v,w)])
+
+from plotting import plot
