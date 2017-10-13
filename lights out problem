@@ -1,13 +1,13 @@
 #Contract induct(s) : set of sets, integer -> set of sets
 #Purpose induct : to take a set of sets and create a new set of sets that contains the original in addition to
 #Example induct({{}},5) -> {{},{5}}, induct({{2},{3}}, 4) -> {{2},{3},{2,4},{3,4}}
-def induct(s,i):
+def subsets(s,i):
     if s == 0:
         return{{}}
     else:
-        return subsets(s)
+        return induct(s)
 
 
-def subsets(s):
+def induct(a):
     s=s-1
     return s
