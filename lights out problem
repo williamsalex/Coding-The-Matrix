@@ -1,13 +1,87 @@
 #Contract induct(s) : set of sets, integer -> set of sets
 #Purpose induct : to take a set of sets and create a new set of sets that contains the original in addition to
 #Example induct({{}},5) -> {{},{5}}, induct({{2},{3}}, 4) -> {{2},{3},{2,4},{3,4}}
-def subsets(s,i):
-    if s == 0:
-        return{{}}
+def subsets(i):
+    if i == 0:
+        return[[]]
     else:
-        return induct(s)
+        return induct(subsets(i-1),i)
+
+def induct(listoflists,n):
+    v=listoflists
+    #added variable v to fix listoflists changing value midway through function (suspected leak from myappend)
+    s=[myappend(X,n) for X in listoflists]
+    return s+v
+
+def myappend(list,value):
+    p=list
+    p.append(value)
+    return p
+
+///
 
 
-def induct(a):
-    s=s-1
-    return s
+from GF2 import one
+class Vec:
+    def __init__(self,labels,function):
+        self.D = labels
+        self.f = function
+def lightsOut(gridsize,sparse):
+    numpool=set(range(0,gridsize,1))
+    pointpool={(X,Y) for X in numpool for Y in numpool}
+    initial = Vec(pointpool,{X:one for X in sparse})
+
+    vecCombiner(initial,possiblePress)
+
+
+def vecCombiner(initial,possiblePress):
+
+    if finalVec.f == {}:
+        return(True)
+    else:
+        return(False)
+
+/////
+
+
+
+
+from GF2 import one
+class Vec:
+    def __init__(self,labels,function):
+        self.D = labels
+        self.f = function
+def lightsOut(gridsize,sparse):
+    numpool=list(range(gridsize))
+    pointpool=[(X,Y) for X in numpool for Y in numpool]
+    initial = Vec(pointpool,{X:one for X in sparse})
+    possiblePress = subsets(gridsize)
+    vecCombiner(initial,possiblePress)
+
+
+def vecCombiner(initial,possiblePress):
+    output={initial.f==possiblePress.f}
+    solutionDisplacement1={(X[0]-1,X[1]) for X in possiblePress.f}
+    if finalVec.f == {}:
+        return(True)
+    else:
+        return(False)
+
+
+
+
+def subsets(i):
+    if i == 0:
+        return[[]]
+    else:
+        return induct(subsets(i-1),i)
+
+def induct(listoflists,n):
+    v=listoflists
+    s=[myappend(X,n) for X in listoflists]
+    return s+v
+
+def myappend(list,value):
+    p=list
+    p.append(value)
+    return p

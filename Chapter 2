@@ -27,18 +27,21 @@ def lineSegment(A, B, C):
     E=subVector(A, B)
     F=vectorScalar(1/(1+C), (E))
     coords=[addVector(A,vectorScalar(X,F)) for X in list(range(0,C+2,1))]
-    return(coords)
+    plotter(coords)
 
 # Contract fittedWindowSize : one list of vec -> int
 # Purpose to determine the optimal viewing window size using the list given
 # Example fittedWindowSize([100,0],[0,110],[50,50],[-120,75]) : 120
 
 def fittedWindowSize(A):
-    B=[x for x in A]
-    C=[abs(x) for x in B]
-    C[0]=z
-    D=[x for x in C if x>=z]
-    return(D)
+    F=[X[0] for X in A]
+    G=[X[1] for X in A]
+    C=[abs(x) for x in F]
+    D=[abs(x) for x in G]
+    return(max(max(C),max(D)))
+
+def plotter(A):
+    plot(A, fittedWindowSize(A))
 
 
 def subVector(v, w):
