@@ -102,6 +102,13 @@ def pressAffect(button, domain):
 
 
 
+def lightsOut(gridsize,sparse):
+    initialstate(gridsize,sparse)
+    possiblePress = possiblePresses(gridsize)
+    buttonPresser(initial,possiblePress)
+
+
+
 #append methods
 def myappend(list,value):
     p=list
