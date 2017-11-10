@@ -1,0 +1,83 @@
+from GF2 import one
+class Vec:
+    def __init__(self,labels,function):
+        self.D = labels
+        self.f = function
+
+def lightsOut(gridsize,sparse):
+    pointpool=[(X,Y) for X in range(gridsize) for Y in range(gridsize)]
+    initial = Vec({},{X:one for X in sparse})
+    possiblePress = possiblePresses(gridsize)
+    final = [buttonPresser(initial, X, gridsize) for X in possiblePress]
+    finalfinal = sparseTrimmer(final)
+    for X in finalfinal:
+        if X.f == {}:
+            return X.D
+    return "No Solution!"
+    #return {a:f for a,f in [X.items for X in [X.f for X in final]] if f != 0}
+    #return [X.items for X in [X.f for X in finalfinal]]
+
+#possiblePresses(2) : [[], [(0, 0)], [(0, 1)], [(0, 0), (0, 1)], [(1, 0)], [(0, 0), (1, 0)], [(0, 1), (1, 0)], [(0, 0), (0, 1), (1, 0)], [(1, 1)], [(0, 0), (1, 1)], [(0, 1), (1, 1)], [(0, 0), (0, 1), (1, 1)], [(1, 0), (1, 1)], [(0, 0), (1, 0), (1, 1)], [(0, 1), (1, 0), (1, 1)], [(0, 0), (0, 1), (1, 0), (1, 1)]]
+def possiblePresses(gridsize):
+    numberOfButtons = gridsize**2
+    subs = subsets(numberOfButtons)
+    return [translator(X,gridsize) for X in subs]
+
+def translator(list,gridsize):
+    coordinates = [(X,Y) for X in range(gridsize) for Y in range(gridsize)]
+    numbers = range(1,gridsize**2+1,1)
+    converter = {key:value for (key,value) in zip(numbers, coordinates)}
+    return [converter[x] for x in list]
+
+def subsets(i):
+    if i == 0:
+        return[[]]
+    else:
+        return induct(subsets(i-1),i)
+
+def induct(listoflists,n):
+    return listoflists + [X+[n] for X in listoflists]
+
+def buttonPresser(initial, buttonpress, gridsize):
+    if buttonpress == []:
+        return initial
+    else:
+        return buttonPresser(SinglebuttonPresser(initial, buttonpress[0], gridsize), buttonpress[1:], gridsize)
+
+# input: a single sequence of presses in a list
+# output: final vector showing the domain and the sparse of the final state of the game
+def SinglebuttonPresser(initial, press, gridsize):
+    return addVector(initial, buttonToVector(press, gridsize))
+
+def getitem(v,d): return v.f[d] if d in v.f else 0
+
+def addVector(a, b):
+    print(a.D)
+    print("new iter")
+    print(b.D)
+    print(a.f)
+    return Vec(a.D.update({b.D}),{d:getitem(a,d)+getitem(b,d) for d in a.D})
+    # delete 0s in sparse
+
+def buttonToVector(button, gridsize):
+    switchedSet = pressAffect(button, gridsize)
+    return Vec(button,{X:one for X in switchedSet})
+
+def pressAffect(button, gridsize):
+    pointpool=[(X,Y) for X in range(gridsize) for Y in range(gridsize)]
+    x1 = ((button[0]-1), button[1])
+    x2 = ((button[0]+1), button[1])
+    y1 = (button[0], (button[1]-1))
+    y2 = (button[0], (button[1]+1))
+    affected = [x1, x2, y1, y2, button]
+    return [x for x in affected if x in pointpool]
+
+def sparseTrimmer(Listofvec):
+    return [Vec(X.D, superSparseTrimmer(X.f)) for X in Listofvec]
+
+def superSparseTrimmer(dictionary):
+    X={}
+    for k,v in (dictionary.items()):
+        if v == one:
+            X.update({k:v})
+    return X
