@@ -8,11 +8,12 @@ def lightsOut(gridsize,sparse):
     pointpool=[(X,Y) for X in range(gridsize) for Y in range(gridsize)]
     initial = Vec(pointpool,{X:one for X in sparse})
     possiblePress = possiblePresses(gridsize)
-    final = [buttonPresser(initial, X) for X in possiblePress]
-    finalfinal = sparseTrimmer(final)
-    for X in finalfinal:
-        if X.f == {}:
-            return X.D
+    final = [[buttonPresser(initial, X),X] for X in possiblePress]
+    print(final)
+    finalfinal = [sparseTrimmer(X[0]) X[1:] for X in final]
+    for X[0] in finalfinal:
+        if X[0].f == {}:
+            return X[1:]
     return "No Solution!"
     #return {a:f for a,f in [X.items for X in [X.f for X in final]] if f != 0}
     #return [X.items for X in [X.f for X in finalfinal]]
@@ -67,8 +68,8 @@ def pressAffect(button, domain):
     affected = [x1, x2, y1, y2, button]
     return [x for x in affected if x in domain]
 
-def sparseTrimmer(Listofvec):
-    return [Vec(X.D, superSparseTrimmer(X.f)) for X in Listofvec]
+def sparseTrimmer(singleVec):
+    return Vec(singleVec.D, superSparseTrimmer(singleVec.f))
 
 
 def superSparseTrimmer(dictionary):
