@@ -5,26 +5,29 @@ class Vec:
         self.f = function
 
 def lightsOut(gridsize,sparse):
-    numpool=list(range(gridsize))
-    pointpool=[(X,Y) for X in numpool for Y in numpool]
+    pointpool=[(X,Y) for X in range(gridsize) for Y in range(gridsize)]
     initial = Vec(pointpool,{X:one for X in sparse})
     possiblePress = possiblePresses(gridsize)
-    final = [buttonPresser(inital, X) for X in possiblePress]
-    [X for X in final if final.f == {}]
-    return #
+    final = [buttonPresser(initial, X) for X in possiblePress]
+    finalfinal = sparseTrimmer(final)
+    for X in finalfinal:
+        if X.f == {}:
+            return X.D
+    return "No Solution!"
+    #return {a:f for a,f in [X.items for X in [X.f for X in final]] if f != 0}
+    #return [X.items for X in [X.f for X in finalfinal]]
 
 #possiblePresses(2) : [[], [(0, 0)], [(0, 1)], [(0, 0), (0, 1)], [(1, 0)], [(0, 0), (1, 0)], [(0, 1), (1, 0)], [(0, 0), (0, 1), (1, 0)], [(1, 1)], [(0, 0), (1, 1)], [(0, 1), (1, 1)], [(0, 0), (0, 1), (1, 1)], [(1, 0), (1, 1)], [(0, 0), (1, 0), (1, 1)], [(0, 1), (1, 0), (1, 1)], [(0, 0), (0, 1), (1, 0), (1, 1)]]
 def possiblePresses(gridsize):
     numberOfButtons = gridsize**2
     subs = subsets(numberOfButtons)
-    if gridsize == 2:
-        return [translator(X) for X in subs]
+    return [translator(X,gridsize) for X in subs]
 
-
-def translator(list):
-    z={1:(0,0),2:(0,1),3:(1,0),4:(1,1)}
-    return [z[x] for x in list]
-
+def translator(list,gridsize):
+    coordinates = [(X,Y) for X in range(gridsize) for Y in range(gridsize)]
+    numbers = range(1,gridsize**2+1,1)
+    converter = {key:value for (key,value) in zip(numbers, coordinates)}
+    return [converter[x] for x in list]
 
 def subsets(i):
     if i == 0:
@@ -35,16 +38,21 @@ def subsets(i):
 def induct(listoflists,n):
     return listoflists + [X+[n] for X in listoflists]
 
+def buttonPresser(initial, buttonpress):
+    if buttonpress == []:
+        return initial
+    else:
+        return buttonPresser(SinglebuttonPresser(initial, buttonpress[0]), buttonpress[1:])
+
 # input: a single sequence of presses in a list
 # output: final vector showing the domain and the sparse of the final state of the game
-def buttonPresser(initial, press):
-    buttonToVector(press, initial.D)
-    finalvec = addVector(initial,buttonToVector(press))
+def SinglebuttonPresser(initial, press):
+    return addVector(initial, buttonToVector(press, initial.D))
 
 def getitem(v,d): return v.f[d] if d in v.f else 0
 
 def addVector(a, b):
-    x = Vec(a.D,{d:getitem(a,d)+getitem(b,d) for d in a.D})
+    return Vec(a.D,{d:getitem(a,d)+getitem(b,d) for d in a.D})
     # delete 0s in sparse
 
 def buttonToVector(button, domain):
@@ -56,9 +64,16 @@ def pressAffect(button, domain):
     x2 = ((button[0]+1), button[1])
     y1 = (button[0], (button[1]-1))
     y2 = (button[0], (button[1]+1))
-    affected = [x1, x2, y1, y2]
-    affected2 = []
-    for x in affected:
-        if x in domain:
-            affected2.append(x)
-    return affected2
+    affected = [x1, x2, y1, y2, button]
+    return [x for x in affected if x in domain]
+
+def sparseTrimmer(Listofvec):
+    return [Vec(X.D, superSparseTrimmer(X.f)) for X in Listofvec]
+
+
+def superSparseTrimmer(dictionary):
+    X={}
+    for k,v in (dictionary.items()):
+        if v == one:
+            X.update({k:v})
+    return X
