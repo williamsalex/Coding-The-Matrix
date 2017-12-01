@@ -19,34 +19,29 @@ def most_similar(sen, voting_dict):
     a = [sen,0]
     for X in voting_dict.keys():
         if X!=sen:
+            x=0
             for z in voting_dict[X][1:]:
-                x=0
                 x+=voting_dict[X][z]*f[z]
+                print(x)
                 if x>a[1]:
                     a=[X,x]
-    return a[0]
-
-def listintake(listofstring):
-    f = []
-    for X in listofstring:
-        X.replace(' ', ',')
-        f.append(X)
-    return(f)
+    return a
 
 for X in s:
     X.replace(' ', ',')
 
 def least_similar(sen, voting_dict):
-        f = voting_dict[sen]
-        a = [sen,0]
-        for X in voting_dict.keys():
-            if X!=sen:
-                for z in voting_dict[X][1:]:
-                    x=0
-                    x+=voting_dict[X][z]*f[z]
-                    if x<a[1]:
-                        a=[X,x]
-        return a[0]
+    f = voting_dict[sen]
+    a = [sen,0]
+    for X in voting_dict.keys():
+        if X!=sen:
+            x=0
+            for z in voting_dict[X][1:]:
+                x+=voting_dict[X][z]*f[z]
+                print(x)
+                if x<a[1]:
+                    a=[X,x]
+    return a
 
 def find_average_similarity(sen, sen_set, voting_dict):
     f = voting_dict[sen]
@@ -62,19 +57,34 @@ for X in voting_dict:
     if ' D ' in X:
         s.append(X)
 
-# non working
+def listintake(votingrecorddump):
+    splitstring=[]
+    for X in votingrecorddump:
+        splitstring.append(X.split())
+    f = []
+    for X in splitstring:
+        for Y in X[3:]:
+            int(Y)
+        f.append(X)
+    return(f)
+
 def sen_set(voting_dict, condition):
     s = []
     for X in voting_dict:
-        if 'condition' in X:
-            s.append(X)
-    return create_voting_dict(s)
-# non working
+        for Y in X:
+            if condition in Y:
+                s.append(X[:3]+[int(X) for X in X[3:]])
+    x = {}
+    for X in s:
+        x.update({X[0]:[f for f in X[3:]]})
+    return x
+
+# non-working
 
 def find_average_record(sen_set, voting_dict):
-    f = sen_set[0]
+    f = []
     a = 0
-    for X in sen_set():
+    for X in sen_set.keys():
         if X!=sen_set[0]:
             for z in sen_set[X][1:]:
                 a+=sen_set[X][z]*f[z]
@@ -89,3 +99,29 @@ def find_average_record(sen_set, voting_dict):
                 a+=voting_dict[X][z]*f[z]
     overallavg = a/len(voting_dict)
     return (setavg/overallavg)*2
+
+# non-working
+
+
+def least_similar(sen, voting_dict):
+    f = voting_dict[sen]
+    a = [sen,0]
+    for X in voting_dict.keys():
+        if X!=sen:
+            x=0
+            for z in voting_dict[X][1:]:
+                x+=voting_dict[X][z]*f[z]
+                if x<a[1]:
+                    a=[X,x]
+    return a
+
+def bitter_rivals(voting_dict):
+    a = [0,0]
+    f = [0,0]
+    b = ""
+    for X in voting_dict.keys():
+        f = least_similar(X, voting_dict)
+        if f[1]<a[1]:
+            a=f
+            b=X
+    return str(a[0])+" and "+b
