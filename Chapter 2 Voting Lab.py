@@ -22,7 +22,6 @@ def most_similar(sen, voting_dict):
             x=0
             for z in voting_dict[X][1:]:
                 x+=voting_dict[X][z]*f[z]
-                print(x)
                 if x>a[1]:
                     a=[X,x]
     return a
@@ -35,12 +34,14 @@ def least_similar(sen, voting_dict):
     a = [sen,0]
     for X in voting_dict.keys():
         if X!=sen:
-            x=0
-            for z in voting_dict[X][1:]:
-                x+=voting_dict[X][z]*f[z]
-                print(x)
-                if x<a[1]:
-                    a=[X,x]
+            #for z in range(0,len(voting_dict[X])):
+                #x+=voting_dict[X][z]*f[z]
+            print(f)
+            print(a)
+            x=list_dot(f,voting_dict[X])
+            print(x)
+            if x<a[1]:
+                a=[X,x]
     return a
 
 def find_average_similarity(sen, sen_set, voting_dict):
@@ -85,8 +86,8 @@ def find_average_record(sen_set, voting_dict):
     f = []
     a = 0
     for X in sen_set.keys():
-        if X!=sen_set[0]:
-            for z in sen_set[X][1:]:
+            for z in sen_set[X]:
+                print(z)
                 a+=sen_set[X][z]*f[z]
     setavg = a/len(sen_set)
     f = voting_dict[sen]
@@ -109,7 +110,7 @@ def least_similar(sen, voting_dict):
     for X in voting_dict.keys():
         if X!=sen:
             x=0
-            for z in voting_dict[X][1:]:
+            for z in voting_dict[X]:
                 x+=voting_dict[X][z]*f[z]
                 if x<a[1]:
                     a=[X,x]
