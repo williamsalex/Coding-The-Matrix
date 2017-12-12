@@ -11,6 +11,7 @@ def list_dot(u,v):
     51
 
     computes the dot product of two input vectors formatted as lists'''
+
     return sum([X*Y for (X,Y) in  zip(u,v)])
 
 # Contract listintake : textwrapper -> dictionary
@@ -82,7 +83,7 @@ def least_similar(sen, voting_dict):
     returns the senator who is least similar to the input
     '''
     f = voting_dict[sen]
-    a = [sen,1000]
+    a = [sen,list(voting_dict)[0]]
     for X in voting_dict.keys():
         if X!=sen:
             x=0
@@ -100,7 +101,7 @@ def most_similar(sen, voting_dict):
     returns the senator who is most similar to the input
     '''
     f = voting_dict[sen]
-    a = [sen,-1000]
+    a = [sen, list(voting_dict)[0]]
     for X in voting_dict.keys():
         if X!=sen:
             x=0
@@ -134,13 +135,11 @@ def find_average_record(sen_set, voting_dict):
     '''
     finds the average record of the set of input senators
     '''
-    total = voting_dict[list(sen_set)[0]]
+    total = voting_dict[list(sen_set)[0]][:]
     for X in list(sen_set):
-        if X != total:
+        if X != list(sen_set)[0]:
             for Y in range(len(total)):
-                print(total[Y])
-                print(voting_dict[X][Y])
                 total[Y] = total[Y]+voting_dict[X][Y]
-    for X in total:
-        X = int(X/len(sen_set))
+    for X in range(len(total)):
+        total[X] = total[X]/len(sen_set)
     return total
