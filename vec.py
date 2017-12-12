@@ -76,12 +76,6 @@ def equal(u,v):
                     return False
     return True
 
-    for X in u.D:
-        if u.f[X] != v.f[X]:
-            return False
-        if X == 0 & nil
-    return True
-
 def add(u,v):
     """
     Returns the sum of the two vectors.
