@@ -6,13 +6,16 @@ def getitem(v,k):
     Be sure getitem(v,k) returns 0 if k is not represented in v.f.
 
     >>> v = Vec({'a','b','c', 'd'},{'a':2,'c':1,'d':3})
-    >>> v['d']
-    3
-    >>> v['b']
+    >>> getitem(v, 'c')
+    1
+    >>> getitem(v, 'b')
     0
     """
     assert k in v.D
-    return v.f[k]
+    if k in v.f.keys():
+        return v.f[k]
+    else:
+        return 0
 
 
 def setitem(v,k,val):
@@ -22,15 +25,12 @@ def setitem(v,k,val):
     is not previously represented in v.f, and even if val is 0.
 
     >>> v = Vec({'a', 'b', 'c'}, {'b':0})
-    >>> v['b'] = 5
-    >>> v['b']
-    5
-    >>> v['a'] = 1
-    >>> v['a']
-    1
-    >>> v['a'] = 0
-    >>> v['a']
-    0
+    >>>setitem(v, 'a', 3)
+    >>>v.f['a']
+    3
+    >>>setitem(v, 'b', 2)
+    >>>v.f['b']
+    2
     """
     assert k in v.D
     v.f[k]=val
@@ -69,11 +69,18 @@ def equal(u,v):
     False
     """
     assert u.D == v.D
+    for X in u.f:
+        if X in v.f.keys():
+            if u.f[X] != 0:
+                if v.f[X] != u.f[X]:
+                    return False
+    return True
+
     for X in u.D:
         if u.f[X] != v.f[X]:
-            if
-                return False
-
+            return False
+        if X == 0 & nil
+    return True
 
 def add(u,v):
     """
