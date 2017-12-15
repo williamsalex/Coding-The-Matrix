@@ -68,13 +68,18 @@ def equal(u,v):
     >>> Vec({'a','b'},{'a':1}) == Vec({'a','b'},{'a':2})
     False
     """
-    assert u.D == v.D
-    for X in u.f:
-        if X in v.f.keys():
-            if u.f[X] != 0:
-                if v.f[X] != u.f[X]:
+    def equal(u,v):
+        assert u.D == v.D
+        for X in u.f.keys():
+            if X in v.f.keys():
+                if v.f[X] == u.f[X]:
+                    pass
+            else:
+                if u.f[X] != 0:
                     return False
-    return True
+                else:
+                    pass
+        return True
 
 def add(u,v):
     """
@@ -113,7 +118,10 @@ def add(u,v):
     assert u.D == v.D
     for X in u.D:
         if X not in u.f.keys():
-            u.f[X] = v.f[X]
+            if X in v.f.keys():
+                u.f.update({X:v.f[X]})
+        else:
+            u.f.update({X:u.f[X]+v.f[X]})
     return u
 def dot(u,v):
     """
@@ -191,11 +199,8 @@ def neg(v):
     True
     """
     s = len(v.f)
-    for X in v.f.values():
-        print(X)
-        v.f.update(-X)
-    for X in range(0,s,1):
-        v.f.pop(X)
+    for X in v.f.keys():
+        v.f.update({X:-v.f[X]})
     return v
 
 
