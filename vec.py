@@ -74,11 +74,11 @@ def equal(u,v):
             if X in v.f.keys():
                 if v.f[X] == u.f[X]:
                     pass
+                else:
+                    return False
             else:
                 if u.f[X] != 0:
                     return False
-                else:
-                    pass
         return True
 
 def add(u,v):
@@ -115,14 +115,22 @@ def add(u,v):
     >>> b + Vec({'a','e','i','o','u'}, {}) == b
     True
     """
+    def add(u,v):
     assert u.D == v.D
+    x = Vec(u.D,{})
     for X in u.D:
         if X not in u.f.keys():
             if X in v.f.keys():
-                u.f.update({X:v.f[X]})
+                x.f.update({X:v.f[X]})
         else:
-            u.f.update({X:u.f[X]+v.f[X]})
-    return u
+            x.f.update({X:u.f[X]+v.f[X]})
+    dictcopy = {}
+    for X in x.f.keys():
+        if x.f[X] == 0:
+            pass
+        else:
+            dictcopy.update({X:x.f[X]})
+    return Vec(u.D, dictcopy)
 def dot(u,v):
     """
     Returns the dot product of the two vectors.
